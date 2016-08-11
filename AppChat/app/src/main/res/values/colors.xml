@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/menu_color</color>
+    <color name="colorPrimaryDark">@color/menu_color</color>
+    <color name="colorAccent">#727272</color>
+    <color name="gray_transparent_color">#78f3f5f5</color>
+    <color name="blue_color">#1088f5</color>
+    <color name="blue50_color">#29c0f7</color>
+    <color name="gray_color">#f3f5f5</color>
+    <color name="red_color">#ff0000</color>
+    <color name="brown_dark">#aa567a</color>
+    <color name="divider">#B6B6B6</color>
+    <color name="app_actionbar_color">#5351A4</color>
+
+    <color name="primaryLight">#DCEDC8</color>
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#727272</color>
+    <color name="tabMedium">#f3f5f5</color>
+    <color name="tabDark">#f3f5f5</color>
+    <color name="tabTransparent">#10ffffff</color>
+
+    <color name="menu_color">#AB5667</color>
+    <color name="search_color">#564d53</color>
+    <color name="search_color_ocpacity">#80564d53</color>
+    <color name="color_background_primary">#fefefe</color>
+    <color name="more_unreads_message">#003b6f</color>
+
+
+    <color name="underline_default_color">#aa567a</color>
+    <color name="underline_selected_color">#000</color>
+    <color name="hintColor">#CCCCCC</color>
+    <color name="textColor">#000</color>
+    <color name="white_color">#ffffff</color>
+</resources>

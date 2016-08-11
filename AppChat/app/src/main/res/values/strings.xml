@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AppChat</string>
+    <string name="login_email">Email</string>
+    <string name="login_signin">SignIn</string>
+    <string name="login_forgot_password">Forgot Password</string>
+    <string name="login_password">Password</string>
+    <string name="login_create_account">Create Account</string>
+    <string name="create_account_signup">Signup</string>
+    <string name="create_account_register_password">Password</string>
+    <string name="create_account_register_return_password">Re-Password</string>
+
+    <string name="progress_loading_dialog">Loading</string>
+</resources>
