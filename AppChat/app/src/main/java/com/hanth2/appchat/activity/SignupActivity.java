@@ -46,11 +46,13 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void SignupAccUser(){
-        showProgressDiaglog();
         mEmail = mEdtLoginUserName.getText().toString();
         mPassword = mEdtLoginPassword.getText().toString();
         mPasswordRe = mEdtLoginRePassword.getText().toString();
         if (mPassword.equals(mPasswordRe)){
+            Log.d(TAG, "createAccount:" + mEmail);
+            showProgressDiaglog();
+            // [START create_user_with_email]
             mAuth.createUserWithEmailAndPassword(mEmail, mPassword)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -61,16 +63,19 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
-                                Toast.makeText(SignupActivity.this, "Auth fail",
+                                Toast.makeText(SignupActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }else {
+                                Toast.makeText(getApplicationContext(), "Authentication Success", Toast.LENGTH_LONG).show();
+                                // [START_EXCLUDE]
                                 hideProgressDialog();
+                                // [END_EXCLUDE]
                                 swichScreen();
                             }
 
-                            // ...
                         }
                     });
+            // [END create_user_with_email]
 
         }else {
             Toast.makeText(getApplicationContext(), "Password wrong", Toast.LENGTH_LONG).show();

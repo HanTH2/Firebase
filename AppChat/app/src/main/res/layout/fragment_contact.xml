@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/contentFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/gray_color">
+
+                <LinearLayout
+                    android:id="@+id/ll_header_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:orientation="vertical">
+
+                    <com.hanth2.appchat.customview.SearchEditText
+                        android:id="@+id/edt_search_menu"
+                        style="@style/medium_cap_word_edt_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/fragment_menu_padding_search"
+                        android:layout_marginRight="@dimen/fragment_menu_padding_search"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/edt_search_style"
+                        android:drawablePadding="10dp"
+                        android:imeOptions="actionDone"
+                        android:paddingEnd="15dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/white_color"
+                        android:textColorHint="@color/white_color"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_group_add"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/fragment_menu_padding_left">
+
+                        <Button
+                            android:id="@+id/btn_group_add"
+                            style="@style/text_view_large"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/btn_circle_dashed"
+                            android:text="+"
+                            android:textColor="@color/search_color_ocpacity" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center|left"
+                            android:paddingLeft="10dp"
+                            android:text="@string/fragment_contact_add_contact" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_add_number_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/fragment_menu_padding_left">
+
+                        <Button
+                            android:id="@+id/btn_add_number_user"
+                            style="@style/text_view_large"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:background="@drawable/btn_circle_dashed"
+                            android:text="+"
+                            android:textColor="@color/search_color_ocpacity" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center|left"
+                            android:paddingLeft="10dp"
+                            android:text="@string/fragment_contact_add_number" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_contact"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerDialog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycle_dialog_search_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+    </ScrollView>
+</LinearLayout>

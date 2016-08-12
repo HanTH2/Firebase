@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/scrollViewRecentTab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/gray_color">
+
+                <LinearLayout
+                    android:id="@+id/ll_search_recent"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.hanth2.appchat.customview.SearchEditText
+                        android:id="@+id/edt_search_menu_recent"
+                        style="@style/medium_cap_word_edt_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical|end"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="@dimen/fragment_menu_padding_left"
+                        android:layout_marginRight="@dimen/fragment_menu_padding_left"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/edt_search_style"
+                        android:drawablePadding="10dp"
+                        android:imeOptions="actionDone"
+                        android:paddingEnd="15dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/white_color"
+                        android:textColorHint="@color/white_color"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_recent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/btn_recent_tab"
+                        android:gravity="center" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recyclerDialog"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_above="@+id/btn_recent_tab"
+                        android:gravity="center" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </FrameLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/newMsgTextAlert"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/more_unreads_message"
+        android:gravity="center"
+        android:text="Bạn có tin nhắn mới"
+        android:textColor="@color/white_color" />
+</RelativeLayout>

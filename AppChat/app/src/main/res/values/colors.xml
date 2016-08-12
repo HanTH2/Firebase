@@ -8,7 +8,6 @@
     <color name="blue50_color">#29c0f7</color>
     <color name="gray_color">#f3f5f5</color>
     <color name="red_color">#ff0000</color>
-    <color name="brown_dark">#aa567a</color>
     <color name="divider">#B6B6B6</color>
     <color name="app_actionbar_color">#5351A4</color>
 
@@ -25,10 +24,11 @@
     <color name="color_background_primary">#fefefe</color>
     <color name="more_unreads_message">#003b6f</color>
 
-
-    <color name="underline_default_color">#aa567a</color>
-    <color name="underline_selected_color">#000</color>
     <color name="hintColor">#CCCCCC</color>
     <color name="textColor">#000</color>
     <color name="white_color">#ffffff</color>
+    <color name="tab_bg">#f8f8f8</color>
+    <color name="tab_border">#b2b2b2</color>
+    <color name="red_pressed">#f5817a</color>
+    <color name="brown_dark">#777777</color>
 </resources>

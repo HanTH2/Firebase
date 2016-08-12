@@ -50,7 +50,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="8dp"
-                android:src="@drawable/psd_cut_x96_v2_03" />
+                android:src="@drawable/ic_login_email" />
 
             <EditText
                 android:id="@+id/edt_login_user_name"
@@ -81,7 +81,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="8dp"
-                android:src="@drawable/psd_cut_x96_v2_02" />
+                android:src="@drawable/ic_login_password" />
 
             <EditText
                 android:id="@+id/edt_login_password"
@@ -163,7 +163,7 @@
             android:layout_width="30dp"
             android:layout_height="25dp"
             android:paddingLeft="10dp"
-            android:src="@drawable/psd_cut_x96_04" />
+            android:src="@drawable/ic_login_forgot_passsword" />
 
         <TextView
             android:layout_width="wrap_content"

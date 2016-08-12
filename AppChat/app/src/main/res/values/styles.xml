@@ -8,4 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="text_view_large">
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+
+    <style name="text_view_medium">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="text_view_small">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="frame_clickable_style">
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="medium_cap_word_edt_style" parent="text_view_medium">
+        <item name="android:inputType">textCapWords</item>
+    </style>
+
 </resources>
