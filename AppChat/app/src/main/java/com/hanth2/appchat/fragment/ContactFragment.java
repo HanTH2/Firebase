@@ -17,13 +17,14 @@ import com.hanth2.appchat.adapter.ChatContactAdapter;
 import com.hanth2.appchat.adapter.base.BaseRecyclerAdapter;
 import com.hanth2.appchat.base.BaseFragment;
 import com.hanth2.appchat.datastore.entities.CHUserContact;
+import com.hanth2.appchat.listenners.MainActivityListener;
 
 import java.util.ArrayList;
 
 /**
  * Created by HanTH2 on 8/12/2016.
  */
-public class ContactFragment extends BaseFragment {
+public class ContactFragment extends BaseFragment{
     public static ContactFragment instance;
     private ChatContactAdapter mAdapter = null;
     private RecyclerView mRecycleView;
@@ -63,12 +64,17 @@ public class ContactFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener<CHUserContact>() {
             @Override
             public void onItemClick(View view, CHUserContact userContact, int i) {
-                //switchGroupScreen(userContact.getFriend_name());
+                switchChatDetailScreen();
+                Bundle bundle = new Bundle();
+                bundle.putString(ChatDetailFragment.NAME_FRIEND_CHAT, userContact.getFriend_name());
+                bundle.putString(ChatDetailFragment.USER_LOGIN, mMainActivityListener.getSender());
+                ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance();
+                chatDetailFragment.setArguments(bundle);
             }
         });
     }
 
-    private void switchContactDetail(){
-
+    private void switchChatDetailScreen(){
+        mMainActivityListener.attachShowChatDetailFr();
     }
 }

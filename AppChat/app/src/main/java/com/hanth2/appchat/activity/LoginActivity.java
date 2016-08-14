@@ -22,6 +22,7 @@ import com.hanth2.appchat.base.BaseActivity;
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = LoginActivity.class.getSimpleName();;
+    public static String USER_LOGIN;
     private EditText mEdtLoginUserName;
     private EditText mEdtLoginPassword;
     private Button mBtnLoginSignin;
@@ -73,8 +74,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void SignIn(){
-        mEmail = mEdtLoginUserName.getText().toString();
-        mPassword = mEdtLoginPassword.getText().toString();
+        //mEmail = mEdtLoginUserName.getText().toString();
+        //mPassword = mEdtLoginPassword.getText().toString();
+        mEmail = "hanth2test@gmail.com";
+        mPassword = "Tigonlonton";
         Log.d(TAG, "signIn:" + mEmail);
         showProgressDiaglog();
         // [START sign_in_with_email]
@@ -105,6 +108,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void switchScreenMain(){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.putExtra(USER_LOGIN, mEmail);
         startActivity(intent);
     }
 

@@ -5,4 +5,10 @@ package com.hanth2.appchat.listenners;
  */
 public interface MainActivityListener {
 
+    void attachShowChatDetailFr();
+
+    void onBackChatDetail();
+
+    String getSender();
+
 }

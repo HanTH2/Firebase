@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "854509522980-1qh3khim3i3k3k1bo3uj2ev7sirbtrlv.apps.googleusercontent.com",
+          "client_id": "854509522980-e9bucbhnel4b2pvpr3f80ggrvmf8dqsn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.hanth2.appchat",
             "certificate_hash": "7656FF4344757B6F32C7DFF2E579492B6CD7E470"
+          }
+        },
+        {
+          "client_id": "854509522980-4bl6e2geb95a09q6fa59jtr6eb4b655t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanth2.appchat",
+            "certificate_hash": "D1D87DE4255992A006897C4271FA2EC3F2D72843"
           }
         },
         {

@@ -1,6 +1,7 @@
 package com.hanth2.appchat.activity;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -8,14 +9,17 @@ import android.widget.RadioButton;
 import com.hanth2.appchat.R;
 import com.hanth2.appchat.base.BaseFragmentActivity;
 import com.hanth2.appchat.constant.AppConstants;
+import com.hanth2.appchat.fragment.ChatDetailFragment;
 import com.hanth2.appchat.fragment.ContactFragment;
 import com.hanth2.appchat.fragment.HomeFragment;
 import com.hanth2.appchat.fragment.RecentFragment;
 import com.hanth2.appchat.fragment.SettingsFragment;
+import com.hanth2.appchat.listenners.MainActivityListener;
 
-public class MainActivity extends BaseFragmentActivity implements View.OnClickListener {
+public class MainActivity extends BaseFragmentActivity implements View.OnClickListener, MainActivityListener {
     private RadioButton mBtnHome, mBtnRecent, mBtnGroups, mBtnSettings;
     private AppConstants.TAB_TYPE mCurrentTab = AppConstants.TAB_TYPE.TAB_NONE;
+    private String mUserLogin;
 
     @Override
     protected Fragment onCreateMainFragment(Bundle savedInstancesState) {
@@ -71,5 +75,25 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
                 mCurrentTab = AppConstants.TAB_TYPE.TAB_SETTINGS;
                 break;
         }
+    }
+
+    @Override
+    public void attachShowChatDetailFr() {
+        ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance();
+        showFragmentWithClearStack(chatDetailFragment);
+        mCurrentTab = AppConstants.TAB_TYPE.TAB_CHAT_DETAIL;
+    }
+
+    @Override
+    public void onBackChatDetail() {
+        ContactFragment contactFragment = ContactFragment.newInstance();
+        showFragmentWithClearStack(contactFragment);
+        mCurrentTab = AppConstants.TAB_TYPE.TAB_CONTACT;
+    }
+
+    @Override
+    public String getSender() {
+        mUserLogin = getIntent().getStringExtra(LoginActivity.USER_LOGIN);
+        return mUserLogin;
     }
 }
