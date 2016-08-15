@@ -9,6 +9,8 @@ public interface MainActivityListener {
 
     void onBackChatDetail();
 
-    String getSender();
+    void showFooterLayout();
+
+    void hideFooterLayout();
 
 }

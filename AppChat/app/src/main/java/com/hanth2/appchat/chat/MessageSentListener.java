@@ -7,6 +7,5 @@ import com.hanth2.appchat.datastore.entities.CHChatMessage;
  */
 public interface MessageSentListener {
     void messageSendSuccess(CHChatMessage chChatMessage);
-
     void messageSentFailed(Exception error);
 }

@@ -66,6 +66,24 @@ public class CHChatMessage {
     private String friend_name;
     private String avatar_friend_name;
 
+    public String getAvatar_sender() {
+        return avatar_sender;
+    }
+
+    public void setAvatar_sender(String avatar_sender) {
+        this.avatar_sender = avatar_sender;
+    }
+
+    public String getAvatar_friend_name() {
+        return avatar_friend_name;
+    }
+
+    public void setAvatar_friend_name(String avatar_friend_name) {
+        this.avatar_friend_name = avatar_friend_name;
+    }
+
+    private String avatar_sender;
+
     public String getImgUrl() {
         return imgUrl;
     }
@@ -81,15 +99,6 @@ public class CHChatMessage {
     public void setFriend_name(String friend_name) {
         this.friend_name = friend_name;
     }
-
-    public String getAvatar_friend_name() {
-        return avatar_friend_name;
-    }
-
-    public void setAvatar_friend_name(String avatar_friend_name) {
-        this.avatar_friend_name = avatar_friend_name;
-    }
-
 
     public String getUpdateAt() {
         return updateAt;
@@ -192,6 +201,12 @@ public class CHChatMessage {
 
     public CHChatMessage(String body) {
         this.body = body;
+    }
+
+    public CHChatMessage(String body, String sender, String avatarUrl){
+        this.body = body;
+        this.sender = sender;
+        this.avatar_sender = avatarUrl;
     }
 
     public CHChatMessage(String conversationId, String sender, String receiver, String msg, long time) {

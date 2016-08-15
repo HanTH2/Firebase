@@ -51,10 +51,6 @@ public class ContactFragment extends BaseFragment{
     }
 
     private void initRecyclerViewContact() {
-//        List<CHUserContact> CHUserContactList = userContactStoreController.getUserContactList(CHChatService.getInstance().getUser().getUname(), 10);
-//        if (null == CHUserContactList) {
-//            CHUserContactList = new ArrayList<>();
-//        }
         mAdapter = new ChatContactAdapter(getActivity(), 0 , (ArrayList<CHUserContact>) ApplicationSingleton.mContactList);
         mAdapter.addAll(ApplicationSingleton.mContactList);
         mLayoutManagerContact = new LinearLayoutManager(getActivity());
@@ -67,7 +63,6 @@ public class ContactFragment extends BaseFragment{
                 switchChatDetailScreen();
                 Bundle bundle = new Bundle();
                 bundle.putString(ChatDetailFragment.NAME_FRIEND_CHAT, userContact.getFriend_name());
-                bundle.putString(ChatDetailFragment.USER_LOGIN, mMainActivityListener.getSender());
                 ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance();
                 chatDetailFragment.setArguments(bundle);
             }

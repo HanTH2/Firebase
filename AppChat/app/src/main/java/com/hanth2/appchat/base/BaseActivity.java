@@ -23,6 +23,8 @@ abstract public class BaseActivity extends AppCompatActivity {
     protected FirebaseAuth mAuth;
     // [END declare_auth]
 
+    protected FirebaseUser mFirebaseUser;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

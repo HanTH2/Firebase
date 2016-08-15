@@ -9,7 +9,6 @@
         android:id="@+id/layoutContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/layoutFooter"
         android:background="@color/white_color"
         android:orientation="horizontal" />
 

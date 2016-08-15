@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,6 @@ import com.hanth2.appchat.base.BaseActivity;
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = LoginActivity.class.getSimpleName();;
-    public static String USER_LOGIN;
     private EditText mEdtLoginUserName;
     private EditText mEdtLoginPassword;
     private Button mBtnLoginSignin;
@@ -74,10 +74,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void SignIn(){
-        //mEmail = mEdtLoginUserName.getText().toString();
-        //mPassword = mEdtLoginPassword.getText().toString();
-        mEmail = "hanth2test@gmail.com";
-        mPassword = "Tigonlonton";
         Log.d(TAG, "signIn:" + mEmail);
         showProgressDiaglog();
         // [START sign_in_with_email]
@@ -106,13 +102,34 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         // [END sign_in_with_email]
     }
 
+    private boolean validateForm(){
+        //mEmail = mEdtLoginUserName.getText().toString();
+        //mPassword = mEdtLoginPassword.getText().toString();
+        mEmail = "hanth2test@gmail.com";
+        mPassword = "Tigonlonton";
+        boolean result = true;
+        if (TextUtils.isEmpty(mEmail)){
+            mEdtLoginUserName.setError("Required");
+            result = false;
+        }else {
+            mEdtLoginUserName.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mPassword)){
+            mEdtLoginPassword.setError("Password not empty");
+            result = false;
+        }else {
+            mEdtLoginPassword.setError(null);
+        }
+        return result;
+    }
+
     private void switchScreenMain(){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.putExtra(USER_LOGIN, mEmail);
         startActivity(intent);
     }
 
-    private void switchScreen(){
+    private void switchSignupScreen(){
         Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
         startActivity(intent);
     }
@@ -121,10 +138,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_login_signin:
+                if (!validateForm()) {
+                    return;
+                }
                 SignIn();
                 break;
             case R.id.btn_login_signup:
-                switchScreen();
+                switchSignupScreen();
                 break;
             default:
                 break;
@@ -138,7 +158,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mAuth.addAuthStateListener(mAuthListener);
     }
     // [END on_start_add_listener]
-
     // [START on_stop_remove_listener]
     @Override
     public void onStop() {

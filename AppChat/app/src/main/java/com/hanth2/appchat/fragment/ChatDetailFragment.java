@@ -1,33 +1,29 @@
 package com.hanth2.appchat.fragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hanth2.appchat.R;
-import com.hanth2.appchat.adapter.ChatAdapter;
-import com.hanth2.appchat.adapter.base.BaseRecyclerAdapter;
+import com.hanth2.appchat.adapter.viewholder.MessageViewHolder;
 import com.hanth2.appchat.base.BaseFragment;
-import com.hanth2.appchat.base.BaseFragmentActivity;
 import com.hanth2.appchat.chat.CHChat;
-import com.hanth2.appchat.controller.MessageController;
-import com.hanth2.appchat.datastore.controller.MessageStoreController;
-import com.hanth2.appchat.datastore.controller.RecentStoreController;
 import com.hanth2.appchat.datastore.entities.CHChatMessage;
 import com.hanth2.appchat.datastore.model.CHRecentModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.hanth2.appchat.utils.ConvertTime;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by HanTH2 on 8/12/2016.
@@ -36,16 +32,21 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
     private static final String TAG = ChatDetailFragment.class.getSimpleName();
     private static ChatDetailFragment instance;
     public static final String NAME_FRIEND_CHAT = "";
-    public static final String USER_LOGIN = "";
     private String mNameFriendChat = "";
     private String mUserLogin = "";
     private TextView mTvUsernameFriendChat;
-    private ImageButton mImageBtn;
+    private ImageButton mImgBackBtn;
     private EditText mEdtMsgChat;
     private CHChat mChat;
     private CHRecentModel mChRecentModel;
     private RecyclerView mRecyclerView;
-    private ChatAdapter mAdapter;
+    private FirebaseRecyclerAdapter<CHChatMessage, MessageViewHolder> mFirebaseAdapter;
+    public static final String MESSAGES_CHILD = "messages";
+    private ImageButton mImgSend;
+    private DatabaseReference mFirebaseDatabaseReference;
+    private ProgressBar mProgressBar;
+    private LinearLayoutManager mLinearLayoutManager;
+    private String mPhotoUrl;
 
     public static ChatDetailFragment newInstance(){
         if (instance == null){
@@ -59,88 +60,80 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_chat, container, false);
         initView(view);
-        initChatModel();
         return view;
     }
 
     private void initView(View view){
         mTvUsernameFriendChat = (TextView)view.findViewById(R.id.tv_username_friend_chat);
-        mImageBtn = (ImageButton)view.findViewById(R.id.btn_back);
+        mImgBackBtn = (ImageButton)view.findViewById(R.id.btn_back);
         mEdtMsgChat = (EditText)view.findViewById(R.id.edt_message);
         mRecyclerView = (RecyclerView)view.findViewById(R.id.chat_details_RecyclerView);
+        mImgSend = (ImageButton)view.findViewById(R.id.img_send);
+        mProgressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+        mImgSend = (ImageButton)view.findViewById(R.id.img_send);
 
         mNameFriendChat = getArguments().getString(NAME_FRIEND_CHAT, "nameChatDetail");
-        mUserLogin = getArguments().getString(USER_LOGIN, "nameUserLogin");
         mTvUsernameFriendChat.setText(mNameFriendChat);
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
-        long timeStart = 0;
-        long timeEnd = System.currentTimeMillis();
+        mLinearLayoutManager = new LinearLayoutManager(mContext);
+        mLinearLayoutManager.setStackFromEnd(true);
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<CHChatMessage, MessageViewHolder>(
+                CHChatMessage.class,
+                R.layout.recycler_message_item,
+                MessageViewHolder.class,
+                mFirebaseDatabaseReference.child(mNameFriendChat)) {
 
-        String conversation = mUserLogin.split("@")[0] + "-" + mNameFriendChat;
-        List<CHChatMessage> chChatMessages = null;
-        chChatMessages = MessageStoreController.getInstance()
-                    .getMessageDataList(conversation, timeStart, timeEnd, 100);
-
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-        mLayoutManager.setStackFromEnd(true);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new ChatAdapter(mContext);
-        mAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener<CHChatMessage>() {
             @Override
-            public void onItemClick(View var1, CHChatMessage chChatMessage, int position) {
-                Log.e("Position click : ", position + "");
-            }
-        });
-
-        mAdapter.addAll(chChatMessages == null ? new ArrayList<CHChatMessage>() : chChatMessages);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount());
-
-        mImageBtn.setOnClickListener(this);
-        mEdtMsgChat.setOnClickListener(this);
-    }
-
-    void initChatModel() {
-        List<CHRecentModel> chRecentModelList = RecentStoreController.getInstance().getChatModelBySender(mNameFriendChat, mUserLogin, 10);
-        if (null == chRecentModelList) {
-            chRecentModelList = new ArrayList<>();
-            Log.d(TAG, "chRecentModelList null");
-        } else {
-            if (chRecentModelList.isEmpty()) {
-                mChRecentModel = new CHRecentModel();
-                mChRecentModel.setSender(mNameFriendChat);
-                mChRecentModel.setUserLogin(mUserLogin);
-                mChRecentModel.setLastMessageDateSent(System.currentTimeMillis());
-                try {
-                    RecentStoreController.getInstance().add(mChRecentModel);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            protected void populateViewHolder(MessageViewHolder viewHolder, CHChatMessage chChatMessage, int position) {
+                mProgressBar.setVisibility(ProgressBar.INVISIBLE);
+                viewHolder.message_sender.setText(chChatMessage.getBody());
+                viewHolder.name_sender.setText(chChatMessage.getSender());
+                viewHolder.time_sender.setText(ConvertTime.convertTimestamp(chChatMessage.getTime()));
+                if (chChatMessage.getAvatar_sender() == null) {
+                    viewHolder.avatar_sender.setImageDrawable(ContextCompat.getDrawable(mContext,
+                            R.drawable.ic_account_circle_black_36dp));
+                } else {
+                    Picasso.with(mContext)
+                            .load(chChatMessage.getAvatar_sender())
+                            .into(viewHolder.avatar_sender);
                 }
-            } else {
-                mChRecentModel = chRecentModelList.get(0);
             }
-            //mChRecentModel.setRoomJid(mNameFriendChat);
-        }
+        };
+        mRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mRecyclerView.setAdapter(mFirebaseAdapter);
 
-    }
-
-    private void sendMessageChat(String messageText, String receive, String userLogin){
-        CHChatMessage chChatMessage = new CHChatMessage(messageText);
-        mChat.sendMessage(chChatMessage, new MessageController(), receive, userLogin);
-        mEdtMsgChat.setText("");
-    }
-
-    public void showMessage(final CHChatMessage chChatMessage) {
-        mAdapter.add(chChatMessage);
-        mAdapter.notifyDataSetChanged();
-        getActivity().runOnUiThread(new Runnable() {
+        mFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
-            public void run() {
-                mRecyclerView.smoothScrollToPosition(mRecyclerView.getAdapter().getItemCount());
-                Log.d(TAG, "show message");
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = mFirebaseAdapter.getItemCount();
+                int lastVisiblePosition = mLinearLayoutManager.findLastCompletelyVisibleItemPosition();
+                // If the recycler view is initially being loaded or the user is at the bottom of the list, scroll
+                // to the bottom of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) && lastVisiblePosition == (positionStart - 1))) {
+                    mRecyclerView.scrollToPosition(positionStart);
+                }
             }
         });
+
+        mImgBackBtn.setOnClickListener(this);
+        mEdtMsgChat.setOnClickListener(this);
+        mImgSend.setOnClickListener(this);
+    }
+
+    private void sendMessageChat(String messageText, String userLogin){
+        if (mFirebaseUser.getPhotoUrl().toString()!= null){
+            mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+        }else {
+            mPhotoUrl = "http://avatario.net/img/1.jpg";
+        }
+        mUserLogin = mFirebaseUser.getDisplayName();
+        CHChatMessage chChatMessage = new CHChatMessage(messageText, mUserLogin,
+                mPhotoUrl);
+        mFirebaseDatabaseReference.child(mNameFriendChat).push().setValue(chChatMessage);
+        mEdtMsgChat.setText("");
     }
 
     @Override
@@ -149,8 +142,8 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
             case R.id.btn_back:
                 mMainActivityListener.onBackChatDetail();
                 break;
-            case R.id.edt_message:
-                sendMessageChat(mEdtMsgChat.getText().toString(), mNameFriendChat, mUserLogin);
+            case R.id.img_send:
+                sendMessageChat(mEdtMsgChat.getText().toString(), mUserLogin);
                 break;
             default:
                 break;

@@ -7,14 +7,15 @@
     android:padding="5.0dip"
     android:paddingLeft="5dp">
 
-    <com.bsdvn.cantina.custom.view.CircleImageView
+    <com.hanth2.appchat.customview.CircleImageView
         android:id="@+id/avatar_sender"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:innerRadius="9dp" />
+        android:innerRadius="9dp"
+        android:src="@drawable/ic_account_circle_black_36dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

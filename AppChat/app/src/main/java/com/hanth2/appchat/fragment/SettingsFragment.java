@@ -28,25 +28,20 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        initView(view);
         return view;
     }
 
-    private void initView(View view){
-        mBtnLogout = (Button)view.findViewById(R.id.btn_logout);
-
-        mBtnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOutFirebase();
-            }
-        });
+    private void initView(View view) {
+        mBtnLogout = (Button) view.findViewById(R.id.btn_logout);
+        mBtnLogout.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_logout:
-                signOutFirebase();
+                mAuth.signOut();
                 break;
             default:
                 break;

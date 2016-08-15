@@ -75,13 +75,13 @@
             <LinearLayout
                 android:id="@+id/form"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/rlInputText"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:orientation="horizontal">
 
                     <EditText
@@ -112,7 +112,7 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -209,7 +209,13 @@
 
         </LinearLayout>
 
-    </FrameLayout>
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"/>
 
+    </FrameLayout>
 
 </LinearLayout>

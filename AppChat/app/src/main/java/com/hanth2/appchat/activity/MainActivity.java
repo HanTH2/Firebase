@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.hanth2.appchat.R;
 import com.hanth2.appchat.base.BaseFragmentActivity;
@@ -20,6 +21,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
     private RadioButton mBtnHome, mBtnRecent, mBtnGroups, mBtnSettings;
     private AppConstants.TAB_TYPE mCurrentTab = AppConstants.TAB_TYPE.TAB_NONE;
     private String mUserLogin;
+    private RadioGroup mLayoutFooter;
 
     @Override
     protected Fragment onCreateMainFragment(Bundle savedInstancesState) {
@@ -44,6 +46,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         mBtnRecent = (RadioButton)findViewById(R.id.btnRecent);
         mBtnGroups = (RadioButton)findViewById(R.id.btnGroups);
         mBtnSettings = (RadioButton)findViewById(R.id.btnSettings);
+        mLayoutFooter = (RadioGroup)findViewById(R.id.layoutFooter);
 
         mBtnHome.setOnClickListener(this);
         mBtnRecent.setOnClickListener(this);
@@ -82,6 +85,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         ChatDetailFragment chatDetailFragment = ChatDetailFragment.newInstance();
         showFragmentWithClearStack(chatDetailFragment);
         mCurrentTab = AppConstants.TAB_TYPE.TAB_CHAT_DETAIL;
+        hideFooterLayout();
     }
 
     @Override
@@ -89,11 +93,16 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
         ContactFragment contactFragment = ContactFragment.newInstance();
         showFragmentWithClearStack(contactFragment);
         mCurrentTab = AppConstants.TAB_TYPE.TAB_CONTACT;
+        showFooterLayout();
     }
 
     @Override
-    public String getSender() {
-        mUserLogin = getIntent().getStringExtra(LoginActivity.USER_LOGIN);
-        return mUserLogin;
+    public void hideFooterLayout() {
+        mLayoutFooter.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showFooterLayout() {
+        mLayoutFooter.setVisibility(View.VISIBLE);
     }
 }
