@@ -124,11 +124,8 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
     }
 
     private void sendMessageChat(String messageText, String userLogin){
-        if (mFirebaseUser.getPhotoUrl().toString()!= null){
-            mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-        }else {
-            mPhotoUrl = "http://avatario.net/img/1.jpg";
-        }
+        //mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
+        mPhotoUrl = "http://avatario.net/img/1.jpg";
         mUserLogin = mFirebaseUser.getDisplayName();
         CHChatMessage chChatMessage = new CHChatMessage(messageText, mUserLogin,
                 mPhotoUrl);
