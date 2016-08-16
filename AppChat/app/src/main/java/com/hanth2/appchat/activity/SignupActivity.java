@@ -13,8 +13,13 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hanth2.appchat.R;
 import com.hanth2.appchat.base.BaseActivity;
+import com.hanth2.appchat.constant.AppConstants;
+import com.hanth2.appchat.datastore.entities.CHUserContact;
 
 /**
  * Created by HanTH2 on 8/11/2016.
@@ -29,12 +34,15 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
     private String mPassword;
     private String mPasswordRe;
 
+    private DatabaseReference mFirebaseDatabaseReference;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
         initView();
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     private void initView(){
@@ -66,11 +74,13 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
                                 Toast.makeText(SignupActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                             }else {
+                                syncAccount(task.getResult().getUser());
                                 Toast.makeText(getApplicationContext(), "Authentication Success", Toast.LENGTH_LONG).show();
                                 // [START_EXCLUDE]
                                 hideProgressDialog();
                                 // [END_EXCLUDE]
                                 swichScreen();
+
                             }
 
                         }
@@ -94,5 +104,13 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
                 SignupAccUser();
                 break;
         }
+    }
+
+    private void syncAccount(FirebaseUser user) {
+        CHUserContact contact = new CHUserContact();
+        contact.setId(user.getUid());
+        contact.setFriend_name(user.getEmail());
+        contact.setAvatar_friend_name("http://avatario.net/img/6.jpg");
+        mFirebaseDatabaseReference.child(AppConstants.DATA.ACCOUNT).push().setValue(contact);
     }
 }

@@ -31,8 +31,9 @@ import com.squareup.picasso.Picasso;
 public class ChatDetailFragment extends BaseFragment implements View.OnClickListener{
     private static final String TAG = ChatDetailFragment.class.getSimpleName();
     private static ChatDetailFragment instance;
-    public static final String NAME_FRIEND_CHAT = "";
-    private String mNameFriendChat = "";
+    public static final String NAME_FRIEND_CHAT = "NAME_FRIEND_CHAT";
+    public static final String ID_FRIEND_CHAT = "ID_FRIEND_CHAT";
+    private String mChatId = "";
     private String mUserLogin = "";
     private TextView mTvUsernameFriendChat;
     private ImageButton mImgBackBtn;
@@ -43,7 +44,6 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
     private FirebaseRecyclerAdapter<CHChatMessage, MessageViewHolder> mFirebaseAdapter;
     public static final String MESSAGES_CHILD = "messages";
     private ImageButton mImgSend;
-    private DatabaseReference mFirebaseDatabaseReference;
     private ProgressBar mProgressBar;
     private LinearLayoutManager mLinearLayoutManager;
     private String mPhotoUrl;
@@ -72,17 +72,23 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
         mProgressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         mImgSend = (ImageButton)view.findViewById(R.id.img_send);
 
-        mNameFriendChat = getArguments().getString(NAME_FRIEND_CHAT, "nameChatDetail");
-        mTvUsernameFriendChat.setText(mNameFriendChat);
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        mUserLogin = mFirebaseUser.getEmail();
+        mTvUsernameFriendChat.setText(getArguments().getString(NAME_FRIEND_CHAT));
 
+        String userId = mFirebaseUser.getUid();
+        String friendId = getArguments().getString(ID_FRIEND_CHAT);
+        if (userId.compareTo(friendId) < 0) {
+            mChatId= userId + "_" + friendId;
+        } else {
+            mChatId= friendId + "_" + userId;
+        }
         mLinearLayoutManager = new LinearLayoutManager(mContext);
         mLinearLayoutManager.setStackFromEnd(true);
         mFirebaseAdapter = new FirebaseRecyclerAdapter<CHChatMessage, MessageViewHolder>(
                 CHChatMessage.class,
                 R.layout.recycler_message_item,
                 MessageViewHolder.class,
-                mFirebaseDatabaseReference.child(mNameFriendChat)) {
+                mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mChatId)) {
 
             @Override
             protected void populateViewHolder(MessageViewHolder viewHolder, CHChatMessage chChatMessage, int position) {
@@ -126,10 +132,9 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
     private void sendMessageChat(String messageText, String userLogin){
         //mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
         mPhotoUrl = "http://avatario.net/img/1.jpg";
-        mUserLogin = mFirebaseUser.getDisplayName();
         CHChatMessage chChatMessage = new CHChatMessage(messageText, mUserLogin,
                 mPhotoUrl);
-        mFirebaseDatabaseReference.child(mNameFriendChat).push().setValue(chChatMessage);
+        mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mChatId).push().setValue(chChatMessage);
         mEdtMsgChat.setText("");
     }
 

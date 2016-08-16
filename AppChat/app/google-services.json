@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "854509522980-27cpp7ckmn0qp84bjmlenucmtmolg190.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hanth2.appchat",
+            "certificate_hash": "658D4E9799CF77C1424A905AF017F95FDAF9B39F"
+          }
+        },
+        {
           "client_id": "854509522980-e9bucbhnel4b2pvpr3f80ggrvmf8dqsn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

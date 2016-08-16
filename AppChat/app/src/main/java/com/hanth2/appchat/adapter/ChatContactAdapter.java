@@ -53,8 +53,8 @@ public class ChatContactAdapter extends BaseRecyclerAdapter<CHUserContact, Recyc
     }
 
     public static class RecyclerItemViewHolder extends RecyclerView.ViewHolder {
-        TextView contactName;
-        CircleImageView avatar;
+        public TextView contactName;
+        public CircleImageView avatar;
 
         public RecyclerItemViewHolder(View itemView) {
             super(itemView);

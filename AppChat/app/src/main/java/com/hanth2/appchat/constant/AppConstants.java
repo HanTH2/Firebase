@@ -7,4 +7,8 @@ public class AppConstants {
     public enum TAB_TYPE{
         TAB_NONE, TAB_HOME, TAB_RECENT, TAB_CONTACT, TAB_SETTINGS, TAB_CHAT_DETAIL
     }
+
+    public interface DATA {
+        public static final String ACCOUNT = "acount";
+    }
 }

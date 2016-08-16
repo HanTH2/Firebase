@@ -42,6 +42,7 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         switch (view.getId()){
             case R.id.btn_logout:
                 mAuth.signOut();
+                getActivity().finish();
                 break;
             default:
                 break;

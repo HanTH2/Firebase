@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hanth2.appchat.listenners.MainActivityListener;
 
 /**
@@ -20,6 +22,7 @@ abstract public class BaseFragment extends Fragment {
     // [END declare_auth]
 
     protected FirebaseUser mFirebaseUser;
+    protected DatabaseReference mFirebaseDatabaseReference;
 
     @Override
     public void onAttach(Activity activity) {
@@ -35,6 +38,7 @@ abstract public class BaseFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         // [END initialize_auth]
         mFirebaseUser = mAuth.getCurrentUser();
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
 }

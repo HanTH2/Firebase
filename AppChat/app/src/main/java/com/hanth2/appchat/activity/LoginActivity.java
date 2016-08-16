@@ -103,10 +103,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private boolean validateForm(){
-        //mEmail = mEdtLoginUserName.getText().toString();
-        //mPassword = mEdtLoginPassword.getText().toString();
-        mEmail = "hanth2test@gmail.com";
-        mPassword = "Tigonlonton";
+        mEmail = mEdtLoginUserName.getText().toString();
+        mPassword = mEdtLoginPassword.getText().toString();
+      /*  mEmail = "hanth2test@gmail.com";
+        mPassword = "Tigonlonton";*/
         boolean result = true;
         if (TextUtils.isEmpty(mEmail)){
             mEdtLoginUserName.setError("Required");
