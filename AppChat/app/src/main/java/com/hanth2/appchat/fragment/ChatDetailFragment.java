@@ -14,12 +14,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.hanth2.appchat.R;
 import com.hanth2.appchat.adapter.viewholder.MessageViewHolder;
 import com.hanth2.appchat.base.BaseFragment;
 import com.hanth2.appchat.chat.CHChat;
+import com.hanth2.appchat.constant.AppConstants;
 import com.hanth2.appchat.datastore.entities.CHChatMessage;
 import com.hanth2.appchat.datastore.model.CHRecentModel;
 import com.hanth2.appchat.utils.ConvertTime;
@@ -31,8 +30,9 @@ import com.squareup.picasso.Picasso;
 public class ChatDetailFragment extends BaseFragment implements View.OnClickListener{
     private static final String TAG = ChatDetailFragment.class.getSimpleName();
     private static ChatDetailFragment instance;
-    public static final String NAME_FRIEND_CHAT = "NAME_FRIEND_CHAT";
-    public static final String ID_FRIEND_CHAT = "ID_FRIEND_CHAT";
+    public static final String NAME_FRIENDS_CHAT = "NAME_FRIENDS_CHAT";
+    public static final String ID_FRIENDS_CHAT = "ID_FRIENDS_CHAT";
+    public static final String URL_PHOTO_SENDER_CHAT = "URL_PHOTO_SENDER_CHAT";
     private String mChatId = "";
     private String mUserLogin = "";
     private TextView mTvUsernameFriendChat;
@@ -47,6 +47,8 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
     private ProgressBar mProgressBar;
     private LinearLayoutManager mLinearLayoutManager;
     private String mPhotoUrl;
+    private String mUserId;
+    private String mFriendId;
 
     public static ChatDetailFragment newInstance(){
         if (instance == null){
@@ -73,14 +75,15 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
         mImgSend = (ImageButton)view.findViewById(R.id.img_send);
 
         mUserLogin = mFirebaseUser.getEmail();
-        mTvUsernameFriendChat.setText(getArguments().getString(NAME_FRIEND_CHAT));
+        mTvUsernameFriendChat.setText(getArguments().getString(NAME_FRIENDS_CHAT));
 
-        String userId = mFirebaseUser.getUid();
-        String friendId = getArguments().getString(ID_FRIEND_CHAT);
-        if (userId.compareTo(friendId) < 0) {
-            mChatId= userId + "_" + friendId;
+        mUserId = mFirebaseUser.getUid();
+        mFriendId = getArguments().getString(ID_FRIENDS_CHAT);
+        mPhotoUrl = getArguments().getString(URL_PHOTO_SENDER_CHAT);
+        if (mUserId.compareTo(mFriendId) < 0) {
+            mChatId= mUserId + "_" + mFriendId;
         } else {
-            mChatId= friendId + "_" + userId;
+            mChatId= mFriendId + "_" + mUserId;
         }
         mLinearLayoutManager = new LinearLayoutManager(mContext);
         mLinearLayoutManager.setStackFromEnd(true);
@@ -96,12 +99,12 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
                 viewHolder.message_sender.setText(chChatMessage.getBody());
                 viewHolder.name_sender.setText(chChatMessage.getSender());
                 viewHolder.time_sender.setText(ConvertTime.convertTimestamp(chChatMessage.getTime()));
-                if (chChatMessage.getAvatar_sender() == null) {
+                if (mPhotoUrl == null) {
                     viewHolder.avatar_sender.setImageDrawable(ContextCompat.getDrawable(mContext,
                             R.drawable.ic_account_circle_black_36dp));
                 } else {
                     Picasso.with(mContext)
-                            .load(chChatMessage.getAvatar_sender())
+                            .load(mPhotoUrl)
                             .into(viewHolder.avatar_sender);
                 }
             }
@@ -129,11 +132,8 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
         mImgSend.setOnClickListener(this);
     }
 
-    private void sendMessageChat(String messageText, String userLogin){
-        //mPhotoUrl = mFirebaseUser.getPhotoUrl().toString();
-        mPhotoUrl = "http://avatario.net/img/1.jpg";
-        CHChatMessage chChatMessage = new CHChatMessage(messageText, mUserLogin,
-                mPhotoUrl);
+    private void sendMessageChat(String messageText){
+        CHChatMessage chChatMessage = new CHChatMessage(messageText);
         mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(mChatId).push().setValue(chChatMessage);
         mEdtMsgChat.setText("");
     }
@@ -145,7 +145,7 @@ public class ChatDetailFragment extends BaseFragment implements View.OnClickList
                 mMainActivityListener.onBackChatDetail();
                 break;
             case R.id.img_send:
-                sendMessageChat(mEdtMsgChat.getText().toString(), mUserLogin);
+                sendMessageChat(mEdtMsgChat.getText().toString());
                 break;
             default:
                 break;

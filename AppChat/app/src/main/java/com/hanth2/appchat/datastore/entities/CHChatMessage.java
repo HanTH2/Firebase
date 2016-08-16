@@ -203,12 +203,6 @@ public class CHChatMessage {
         this.body = body;
     }
 
-    public CHChatMessage(String body, String sender, String avatarUrl){
-        this.body = body;
-        this.sender = sender;
-        this.avatar_sender = avatarUrl;
-    }
-
     public CHChatMessage(String conversationId, String sender, String receiver, String msg, long time) {
         this.body = msg;
         this.sender = sender;

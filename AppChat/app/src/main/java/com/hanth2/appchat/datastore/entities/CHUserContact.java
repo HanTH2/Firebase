@@ -35,7 +35,16 @@ public class CHUserContact {
     private String friend_name;
     private String avatar_friend_name;
     private String user_login;
+    private String avatar_sender;
     private CHUserContact chUserContact;
+
+    public String getAvatar_sender() {
+        return avatar_sender;
+    }
+
+    public void setAvatar_sender(String avatar_sender) {
+        this.avatar_sender = avatar_sender;
+    }
 
     public boolean isCbCheck() {
         return cbCheck;

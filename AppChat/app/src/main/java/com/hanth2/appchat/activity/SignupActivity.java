@@ -21,6 +21,8 @@ import com.hanth2.appchat.base.BaseActivity;
 import com.hanth2.appchat.constant.AppConstants;
 import com.hanth2.appchat.datastore.entities.CHUserContact;
 
+import java.util.Random;
+
 /**
  * Created by HanTH2 on 8/11/2016.
  */
@@ -110,7 +112,9 @@ public class SignupActivity extends BaseActivity implements View.OnClickListener
         CHUserContact contact = new CHUserContact();
         contact.setId(user.getUid());
         contact.setFriend_name(user.getEmail());
-        contact.setAvatar_friend_name("http://avatario.net/img/6.jpg");
+        Random random = new Random();
+        int answerRD = random.nextInt(9) + 1;
+        contact.setAvatar_sender("http://avatario.net/img/" + answerRD + ".jpg");
         mFirebaseDatabaseReference.child(AppConstants.DATA.ACCOUNT).push().setValue(contact);
     }
 }
